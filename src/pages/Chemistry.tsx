@@ -2,7 +2,7 @@
 import React from 'react';
 import Layout from '@/components/Layout';
 import ContentReader from '@/components/ContentReader';
-import { Beaker, Flask } from 'lucide-react';
+import { Beaker, TestTube } from 'lucide-react';
 
 const Chemistry = () => {
   return (
@@ -30,7 +30,7 @@ const Chemistry = () => {
         
         <div className="glass rounded-lg p-8 shadow-soft dark:bg-gray-800/30 backdrop-blur-lg border border-white/10 dark:border-gray-700/50 flex flex-col items-center justify-center text-center">
           <div className="h-20 w-20 rounded-full bg-gradient-to-br from-green-400/20 to-teal-400/20 flex items-center justify-center mb-6">
-            <Flask className="h-10 w-10 text-green-500 dark:text-green-400" />
+            <TestTube className="h-10 w-10 text-green-500 dark:text-green-400" />
           </div>
           <h2 className="text-2xl font-bold mb-4 content-readable">Content Coming Soon</h2>
           <p className="text-muted-foreground content-readable max-w-md">
