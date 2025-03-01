@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Layout from '@/components/Layout';
@@ -83,24 +82,6 @@ const Math = () => {
             </div>
           </div>
         </div>
-        
-        <section className="mb-12 glass rounded-lg p-6 backdrop-blur-lg border border-white/10 dark:border-gray-700/50 dark:bg-gray-800/30">
-          <h2 className="text-2xl font-bold mb-4 content-readable flex items-center gap-2">
-            <div className="h-6 w-6 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
-              <Calculator className="h-3 w-3 text-white" />
-            </div>
-            Voice Navigation Guide
-          </h2>
-          <p className="mb-4 content-readable">
-            You can navigate through the chapters using voice commands:
-          </p>
-          <div className="glass rounded-lg p-4 shadow-soft mb-4 dark:bg-gray-800/50">
-            <p className="font-medium content-readable">"Chapter 1" - Opens Chapter 1: Calculus Fundamentals</p>
-          </div>
-          <div className="glass rounded-lg p-4 shadow-soft dark:bg-gray-800/50">
-            <p className="font-medium content-readable">"Read" - Reads the current page content aloud</p>
-          </div>
-        </section>
       </div>
     </Layout>
   );
