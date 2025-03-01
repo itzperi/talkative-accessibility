@@ -9,6 +9,10 @@ import Index from "./pages/Index";
 import Physics from "./pages/Physics";
 import Chapter from "./pages/Chapter";
 import NotFound from "./pages/NotFound";
+import Chemistry from "./pages/Chemistry";
+import Math from "./pages/Math";
+import ComputerScience from "./pages/ComputerScience";
+import Biology from "./pages/Biology";
 
 const queryClient = new QueryClient();
 
@@ -32,6 +36,38 @@ const App = () => (
             element={
               <AssistantProvider>
                 <Physics />
+              </AssistantProvider>
+            }
+          />
+          <Route
+            path="/chemistry"
+            element={
+              <AssistantProvider>
+                <Chemistry />
+              </AssistantProvider>
+            }
+          />
+          <Route
+            path="/math"
+            element={
+              <AssistantProvider>
+                <Math />
+              </AssistantProvider>
+            }
+          />
+          <Route
+            path="/computer-science"
+            element={
+              <AssistantProvider>
+                <ComputerScience />
+              </AssistantProvider>
+            }
+          />
+          <Route
+            path="/biology"
+            element={
+              <AssistantProvider>
+                <Biology />
               </AssistantProvider>
             }
           />

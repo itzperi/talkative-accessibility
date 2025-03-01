@@ -1,7 +1,7 @@
 
 import React, { useEffect, useRef } from 'react';
 import { useAssistant } from '@/context/AssistantContext';
-import { Volume2, Pause } from 'lucide-react';
+import { Volume2, Pause, SkipForward, SkipBack } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 type ContentReaderProps = {
@@ -64,22 +64,33 @@ const ContentReader: React.FC<ContentReaderProps> = ({
   return (
     <div className="flex items-center gap-2 mb-4" ref={contentRef}>
       {isSpeaking ? (
-        <Button 
-          variant="outline"
-          size="sm" 
-          onClick={stopSpeaking}
-          className="flex items-center gap-2 shadow-soft"
-          aria-label="Pause reading"
-        >
-          <Pause className="h-4 w-4" />
-          <span>Pause</span>
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button 
+            variant="outline"
+            size="sm" 
+            onClick={stopSpeaking}
+            className="flex items-center gap-2 shadow-soft bg-gradient-to-r from-red-500 to-orange-500 text-white border-0 dark:from-red-600 dark:to-orange-600"
+            aria-label="Pause reading"
+          >
+            <Pause className="h-4 w-4" />
+            <span>Pause</span>
+          </Button>
+          
+          <Button 
+            variant="outline"
+            size="sm"
+            className="shadow-soft dark:bg-black/50 dark:text-white dark:border-white/10"
+            aria-label="Skip forward"
+          >
+            <SkipForward className="h-4 w-4" />
+          </Button>
+        </div>
       ) : (
         <Button 
           variant="outline"
           size="sm" 
           onClick={readContent}
-          className="flex items-center gap-2 shadow-soft"
+          className="flex items-center gap-2 shadow-soft bg-gradient-to-r from-blue-500 to-purple-500 text-white border-0 hover:opacity-90 dark:from-blue-600 dark:to-purple-600"
           aria-label="Read content aloud"
         >
           <Volume2 className="h-4 w-4" />
