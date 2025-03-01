@@ -32,6 +32,7 @@ export const AssistantProvider: React.FC<AssistantProviderProps> = ({ children }
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [recognized, setRecognized] = useState('');
   const [assistantMessage, setAssistantMessage] = useState('');
+  const [currentSubject, setCurrentSubject] = useState<string | null>(null);
   
   const recognitionRef = useRef<SpeechRecognition | null>(null);
   const synthRef = useRef<SpeechSynthesis | null>(null);
@@ -114,6 +115,24 @@ export const AssistantProvider: React.FC<AssistantProviderProps> = ({ children }
     };
   }, []);
 
+  // Get current path to extract subject if needed
+  useEffect(() => {
+    const path = window.location.pathname;
+    if (path.includes('physics')) {
+      setCurrentSubject('physics');
+    } else if (path.includes('chemistry')) {
+      setCurrentSubject('chemistry');
+    } else if (path.includes('math')) {
+      setCurrentSubject('math');
+    } else if (path.includes('computer-science')) {
+      setCurrentSubject('computer-science');
+    } else if (path.includes('biology')) {
+      setCurrentSubject('biology');
+    } else {
+      setCurrentSubject(null);
+    }
+  }, [window.location.pathname]);
+
   // Quick command checking for interim results
   const checkForQuickCommands = (command: string) => {
     // Check for simple navigation commands
@@ -124,22 +143,36 @@ export const AssistantProvider: React.FC<AssistantProviderProps> = ({ children }
     else if (command.includes('physics')) {
       navigate('/physics');
       setAssistantMessage("Going to physics page");
+      setCurrentSubject('physics');
     }
     else if (command.includes('chemistry')) {
       navigate('/chemistry');
       setAssistantMessage("Going to chemistry page");
+      setCurrentSubject('chemistry');
     }
     else if (command.includes('math')) {
       navigate('/math');
       setAssistantMessage("Going to math page");
+      setCurrentSubject('math');
     }
     else if (command.includes('computer') || command.includes('computer science')) {
       navigate('/computer-science');
       setAssistantMessage("Going to computer science page");
+      setCurrentSubject('computer-science');
     }
     else if (command.includes('biology')) {
       navigate('/biology');
       setAssistantMessage("Going to biology page");
+      setCurrentSubject('biology');
+    }
+    else if (command.includes('chapter 1') || command.includes('chapter one')) {
+      handleChapterCommand('1');
+    }
+    else if (command.includes('chapter 2') || command.includes('chapter two')) {
+      handleChapterCommand('2');
+    }
+    else if (command.includes('chapter 3') || command.includes('chapter three')) {
+      handleChapterCommand('3');
     }
     else if (command.includes('stop speaking') || command.includes('stop reading')) {
       stopSpeaking();
@@ -147,42 +180,73 @@ export const AssistantProvider: React.FC<AssistantProviderProps> = ({ children }
     }
   };
 
+  // Handle chapter-specific commands
+  const handleChapterCommand = (chapterNumber: string) => {
+    if (!currentSubject) {
+      speak("Please navigate to a subject first before accessing chapters.");
+      return;
+    }
+
+    const chapterId = `chapter-${chapterNumber}`;
+    
+    // Only physics has chapters currently implemented
+    if (currentSubject === 'physics') {
+      navigate(`/physics/${chapterId}`);
+      setAssistantMessage(`Opening ${currentSubject} ${chapterId}`);
+      speak(`Opening ${currentSubject} chapter ${chapterNumber}. I'll read the content for you.`);
+    } else {
+      // For other subjects, inform that chapters are coming soon
+      speak(`${currentSubject} chapters are coming soon. We're working on adding more content.`);
+      setAssistantMessage(`${currentSubject} chapters coming soon`);
+    }
+  };
+
   // Handle command logic
   const handleCommand = (command: string) => {
     if (command.includes('open physics') || command.includes('go to physics')) {
       navigate('/physics');
+      setCurrentSubject('physics');
       setAssistantMessage("You're now in Physics. Say 'Chapter 1' to open Chapter 1.");
       speak("You're now in Physics. Say 'Chapter 1' to open Chapter 1.");
     } 
+    else if (command.includes('open chemistry') || command.includes('go to chemistry')) {
+      navigate('/chemistry');
+      setCurrentSubject('chemistry');
+      setAssistantMessage("You're now in Chemistry. Say 'Chapter 1' when content becomes available.");
+      speak("You're now in Chemistry. This content is coming soon.");
+    }
+    else if (command.includes('open math') || command.includes('go to math')) {
+      navigate('/math');
+      setCurrentSubject('math');
+      setAssistantMessage("You're now in Math. Say 'Chapter 1' when content becomes available.");
+      speak("You're now in Math. This content is coming soon.");
+    }
+    else if (command.includes('open computer science') || command.includes('go to computer science')) {
+      navigate('/computer-science');
+      setCurrentSubject('computer-science');
+      setAssistantMessage("You're now in Computer Science. Say 'Chapter 1' when content becomes available.");
+      speak("You're now in Computer Science. This content is coming soon.");
+    }
+    else if (command.includes('open biology') || command.includes('go to biology')) {
+      navigate('/biology');
+      setCurrentSubject('biology');
+      setAssistantMessage("You're now in Biology. Say 'Chapter 1' when content becomes available.");
+      speak("You're now in Biology. This content is coming soon.");
+    }
     else if (command.includes('chapter 1') || command.includes('chapter one')) {
-      navigate('/physics/chapter-1');
-      setAssistantMessage("Opening Chapter 1");
-      speak("Opening Chapter 1. I'll read the content for you.");
+      handleChapterCommand('1');
+    }
+    else if (command.includes('chapter 2') || command.includes('chapter two')) {
+      handleChapterCommand('2');
+    }
+    else if (command.includes('chapter 3') || command.includes('chapter three')) {
+      handleChapterCommand('3');
     }
     else if (command.includes('go to home') || command.includes('go home') || command.includes('home page')) {
       navigate('/');
+      setCurrentSubject(null);
       setAssistantMessage("You're now at the home page");
       speak("You're now at the home page.");
-    }
-    else if (command.includes('chemistry') || command.includes('go to chemistry')) {
-      navigate('/chemistry');
-      setAssistantMessage("You're now in Chemistry");
-      speak("You're now in Chemistry. This content is coming soon.");
-    }
-    else if (command.includes('math') || command.includes('go to math')) {
-      navigate('/math');
-      setAssistantMessage("You're now in Math");
-      speak("You're now in Math. This content is coming soon.");
-    }
-    else if (command.includes('computer') || command.includes('computer science')) {
-      navigate('/computer-science');
-      setAssistantMessage("You're now in Computer Science");
-      speak("You're now in Computer Science. This content is coming soon.");
-    }
-    else if (command.includes('biology') || command.includes('go to biology')) {
-      navigate('/biology');
-      setAssistantMessage("You're now in Biology");
-      speak("You're now in Biology. This content is coming soon.");
     }
     else if (command.includes('stop') || command.includes('stop speaking')) {
       stopSpeaking();
