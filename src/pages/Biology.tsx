@@ -3,7 +3,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Layout from '@/components/Layout';
 import ContentReader from '@/components/ContentReader';
-import { ArrowRight, Leaf, Heart, DNA } from 'lucide-react';
+import { ArrowRight, Leaf, Heart } from 'lucide-react';
 
 const Biology = () => {
   return (
