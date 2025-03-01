@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Layout from '@/components/Layout';
 import ContentReader from '@/components/ContentReader';
-import { ArrowRight, Calculator, Plus, Function } from 'lucide-react';
+import { ArrowRight, Calculator, Plus } from 'lucide-react';
 
 const Math = () => {
   return (
