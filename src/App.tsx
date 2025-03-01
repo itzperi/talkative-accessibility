@@ -71,41 +71,9 @@ const App = () => (
               </AssistantProvider>
             }
           />
+          {/* Updated chapter routes for all subjects */}
           <Route
-            path="/physics/:chapterId"
-            element={
-              <AssistantProvider>
-                <Chapter />
-              </AssistantProvider>
-            }
-          />
-          {/* Future chapter routes - these will be implemented when content is available */}
-          <Route
-            path="/chemistry/:chapterId"
-            element={
-              <AssistantProvider>
-                <Chapter />
-              </AssistantProvider>
-            }
-          />
-          <Route
-            path="/math/:chapterId"
-            element={
-              <AssistantProvider>
-                <Chapter />
-              </AssistantProvider>
-            }
-          />
-          <Route
-            path="/computer-science/:chapterId"
-            element={
-              <AssistantProvider>
-                <Chapter />
-              </AssistantProvider>
-            }
-          />
-          <Route
-            path="/biology/:chapterId"
+            path="/:subject/:chapterId"
             element={
               <AssistantProvider>
                 <Chapter />

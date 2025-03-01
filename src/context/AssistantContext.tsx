@@ -174,9 +174,27 @@ export const AssistantProvider: React.FC<AssistantProviderProps> = ({ children }
     else if (command.includes('chapter 3') || command.includes('chapter three')) {
       handleChapterCommand('3');
     }
+    else if (command.includes('read') || command.includes('read page') || command.includes('read content')) {
+      handleReadCommand();
+    }
     else if (command.includes('stop speaking') || command.includes('stop reading')) {
       stopSpeaking();
       setAssistantMessage("Stopped speaking");
+    }
+  };
+
+  // Handle read command
+  const handleReadCommand = () => {
+    // Check if readPageContent function is available (added by ContentReader component)
+    // @ts-ignore - Using custom window property
+    if (window.readPageContent && typeof window.readPageContent === 'function') {
+      // @ts-ignore - Call the function
+      window.readPageContent();
+      setAssistantMessage("Reading page content");
+    } else {
+      // Fallback for pages without ContentReader
+      speak("I don't see any readable content on this page.");
+      setAssistantMessage("No readable content found");
     }
   };
 
@@ -189,16 +207,10 @@ export const AssistantProvider: React.FC<AssistantProviderProps> = ({ children }
 
     const chapterId = `chapter-${chapterNumber}`;
     
-    // Only physics has chapters currently implemented
-    if (currentSubject === 'physics') {
-      navigate(`/physics/${chapterId}`);
-      setAssistantMessage(`Opening ${currentSubject} ${chapterId}`);
-      speak(`Opening ${currentSubject} chapter ${chapterNumber}. I'll read the content for you.`);
-    } else {
-      // For other subjects, inform that chapters are coming soon
-      speak(`${currentSubject} chapters are coming soon. We're working on adding more content.`);
-      setAssistantMessage(`${currentSubject} chapters coming soon`);
-    }
+    // Navigate to chapter
+    navigate(`/${currentSubject}/${chapterId}`);
+    setAssistantMessage(`Opening ${currentSubject} ${chapterId}`);
+    speak(`Opening ${currentSubject} chapter ${chapterNumber}. I'll read the content for you.`);
   };
 
   // Handle command logic
@@ -212,26 +224,26 @@ export const AssistantProvider: React.FC<AssistantProviderProps> = ({ children }
     else if (command.includes('open chemistry') || command.includes('go to chemistry')) {
       navigate('/chemistry');
       setCurrentSubject('chemistry');
-      setAssistantMessage("You're now in Chemistry. Say 'Chapter 1' when content becomes available.");
-      speak("You're now in Chemistry. This content is coming soon.");
+      setAssistantMessage("You're now in Chemistry. Say 'Chapter 1' to explore atomic structure.");
+      speak("You're now in Chemistry. Say 'Chapter 1' to explore atomic structure.");
     }
     else if (command.includes('open math') || command.includes('go to math')) {
       navigate('/math');
       setCurrentSubject('math');
-      setAssistantMessage("You're now in Math. Say 'Chapter 1' when content becomes available.");
-      speak("You're now in Math. This content is coming soon.");
+      setAssistantMessage("You're now in Math. Say 'Chapter 1' to explore calculus fundamentals.");
+      speak("You're now in Math. Say 'Chapter 1' to explore calculus fundamentals.");
     }
     else if (command.includes('open computer science') || command.includes('go to computer science')) {
       navigate('/computer-science');
       setCurrentSubject('computer-science');
-      setAssistantMessage("You're now in Computer Science. Say 'Chapter 1' when content becomes available.");
-      speak("You're now in Computer Science. This content is coming soon.");
+      setAssistantMessage("You're now in Computer Science. Say 'Chapter 1' to explore algorithms.");
+      speak("You're now in Computer Science. Say 'Chapter 1' to explore algorithms and data structures.");
     }
     else if (command.includes('open biology') || command.includes('go to biology')) {
       navigate('/biology');
       setCurrentSubject('biology');
-      setAssistantMessage("You're now in Biology. Say 'Chapter 1' when content becomes available.");
-      speak("You're now in Biology. This content is coming soon.");
+      setAssistantMessage("You're now in Biology. Say 'Chapter 1' to explore cell biology.");
+      speak("You're now in Biology. Say 'Chapter 1' to explore cell biology.");
     }
     else if (command.includes('chapter 1') || command.includes('chapter one')) {
       handleChapterCommand('1');
@@ -248,12 +260,15 @@ export const AssistantProvider: React.FC<AssistantProviderProps> = ({ children }
       setAssistantMessage("You're now at the home page");
       speak("You're now at the home page.");
     }
+    else if (command.includes('read') || command.includes('read page') || command.includes('read content')) {
+      handleReadCommand();
+    }
     else if (command.includes('stop') || command.includes('stop speaking')) {
       stopSpeaking();
       setAssistantMessage("Stopped speaking");
     }
     else if (command.includes('help') || command.includes('what can you do')) {
-      const helpText = "You can say: Open Physics, Chemistry, Math, Computer Science, Biology, Chapter 1, Go to Home, Stop Speaking, or Help.";
+      const helpText = "You can say: Open Physics, Chemistry, Math, Computer Science, Biology, Chapter 1, Read Page, Stop Speaking, or Help.";
       setAssistantMessage(helpText);
       speak(helpText);
     }

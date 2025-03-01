@@ -61,6 +61,17 @@ const ContentReader: React.FC<ContentReaderProps> = ({
     }
   }, [autoRead]);
 
+  // Make readContent available to the global window object for easy access by voice commands
+  useEffect(() => {
+    // @ts-ignore - Adding a custom property to window
+    window.readPageContent = readContent;
+    
+    return () => {
+      // @ts-ignore - Cleanup
+      delete window.readPageContent;
+    };
+  }, []);
+
   return (
     <div className="flex items-center gap-2 mb-4" ref={contentRef}>
       {isSpeaking ? (
